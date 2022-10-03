@@ -1,6 +1,8 @@
 #ifndef SRC_MENU_H
 #define SRC_MENU_H
 
-void wordsMenu();
+namespace menu {
+    void wordsMenu();
+}
 
 #endif
