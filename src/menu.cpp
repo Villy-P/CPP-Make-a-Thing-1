@@ -22,11 +22,11 @@ void menu::wordsMenu(player::Player& player) {
     std::cout << "4  | MAKE UP INSULTS           12 CENTAVOS |" << std::endl;
     std::cout << "5  | WRITE A SPEECH                 1 PESO |" << std::endl;
     std::cout << "6  | VIEW DATA                             |" << std::endl;
-    std::cout << "6  | SAVE DATA                             |" << std::endl;
-    std::cout << "7  | LOAD DATA                             |" << std::endl;
-    std::cout << "8  | EXIT                                  |" << std::endl;
-    std::cout << "9  | DEBUG CONSOLE (ONLY FOR DEVELOPER)    |" << std::endl;
-    std::cout << "10 | MAKE MORE MONEY                       |" << std::endl;
+    std::cout << "7  | SAVE DATA                             |" << std::endl;
+    std::cout << "8  | LOAD DATA                             |" << std::endl;
+    std::cout << "9  | EXIT                                  |" << std::endl;
+    std::cout << "10 | DEBUG CONSOLE (ONLY FOR DEVELOPER)    |" << std::endl;
+    std::cout << "11 | MAKE MORE MONEY                       |" << std::endl;
     std::cout << "   |                                       |" << std::endl;
     std::cout << "   |    ANYONE WHO PAYS 50 CENTAVOS WILL   |" << std::endl;
     std::cout << "   |  GET A WORD TO DRIVE AWAY MELENCHOLY  |" << std::endl;
@@ -57,9 +57,9 @@ void menu::wordsMenu(player::Player& player) {
             break;
         } case 6:
             std::cout << ansi::ANSI_CLEAR << std::endl;
-            std::cout << ansi::ANSI_BLUE << "Verses Known:" << ansi::ANSI_RESET << std::endl;
+            std::cout << ansi::ANSI_BLUE << "Verses Known:\n" << ansi::ANSI_RESET << std::endl;
             for (std::string s : player.knownVerses)
-                std::cout << ansi::ANSI_BLUE << s << ansi::ANSI_RESET << std::endl;
+                std::cout << ansi::ANSI_BLUE << s << "\n" << ansi::ANSI_RESET << std::endl;
             menu_choices::getStringChoice("");
             std::cout << ansi::ANSI_CLEAR << std::endl;
             menu::wordsMenu(player);
