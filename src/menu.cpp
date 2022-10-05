@@ -36,6 +36,13 @@ void menu::wordsMenu(player::Player& player) {
     switch (menu_choices::getMenuChoice(">", 9)) {
         case 1: {
             std::cout << ansi::ANSI_CLEAR << std::endl;
+            if (files::Files::verses.size() == 0) {
+                std::cout << ansi::ANSI_RED << "Belisa has run out of verses to give you." << ansi::ANSI_RESET << std::endl;
+                menu_choices::getStringChoice("");
+                std::cout << ansi::ANSI_CLEAR << std::endl;
+                menu::wordsMenu(player);
+                break;
+            }
             if (player.cash < 5) {
                 std::cout << ansi::ANSI_RED << "You can't afford that!" << ansi::ANSI_RESET << std::endl;
                 menu_choices::getStringChoice("");
