@@ -3,13 +3,15 @@
 #include "ansi.hpp"
 #include "files.hpp"
 #include "random.hpp"
+#include "player.hpp"
 
 #include <iostream>
 #include <string>
 #include <limits>
 
-void menu::wordsMenu() {
+void menu::wordsMenu(player::Player& player) {
     debug_console::DebugConsole::elements.push_back("Begin printing menu");
+    std::cout << ansi::ANSI_GREEN << "You have " << std::to_string(player.cash) << " centavos. (100 centavos = 1 Peso)" << ansi::ANSI_RESET << std::endl;
     std::cout << ansi::ANSI_MAGENTA << "  +---------------------------------------+" << std::endl;
     std::cout << "  |                 WORDS                 |" << std::endl;
     std::cout << "  |                                       |" << std::endl;
@@ -30,13 +32,24 @@ void menu::wordsMenu() {
     std::cout << ansi::ANSI_RED << "Enter the corresponding number to go to a specific menu." << ansi::ANSI_RESET << std::endl;
     debug_console::DebugConsole::elements.push_back("Stop printing menu");
     switch (menu_choices::getMenuChoice(">", 9)) {
-        case 1:
+        case 1: {
             std::cout << ansi::ANSI_CLEAR << std::endl;
-            std::cout << ansi::ANSI_BLUE << "\"" << files::Files::verses[random::randomInRange(0, files::Files::verses.size() - 1)] << "\"" << ansi::ANSI_RESET << std::endl;
+            std::string verse = files::Files::verses[random::randomInRange(0, files::Files::verses.size() - 1)];
+            player.knownVerses.push_back(verse);
+            std::cout << ansi::ANSI_BLUE << "\"" << verse << "\"" << ansi::ANSI_RESET << std::endl;
             debug_console::DebugConsole::elements.push_back("Verse recited");
             menu_choices::getStringChoice("");
             std::cout << ansi::ANSI_CLEAR << std::endl;
-            menu::wordsMenu();
+            menu::wordsMenu(player);
+            break;
+        } case 6:
+            std::cout << ansi::ANSI_CLEAR << std::endl;
+            std::cout << ansi::ANSI_BLUE << "Verses Known:" << ansi::ANSI_RESET << std::endl;
+            for (std::string s : player.knownVerses)
+                std::cout << ansi::ANSI_BLUE << s << ansi::ANSI_RESET << std::endl;
+            menu_choices::getStringChoice("");
+            std::cout << ansi::ANSI_CLEAR << std::endl;
+            menu::wordsMenu(player);
             break;
         case 8:
             std::cout << ansi::ANSI_CLEAR << std::endl;
@@ -48,7 +61,7 @@ void menu::wordsMenu() {
                     break;
                 case 1:
                     std::cout << ansi::ANSI_CLEAR << std::endl;
-                    menu::wordsMenu();
+                    menu::wordsMenu(player);
                     break;
             }
             break;
@@ -58,7 +71,7 @@ void menu::wordsMenu() {
                 std::cout << s << std::endl;
             menu_choices::getStringChoice("");
             std::cout << ansi::ANSI_CLEAR << std::endl;
-            menu::wordsMenu();
+            menu::wordsMenu(player);
             break;
     }
 }
