@@ -36,14 +36,14 @@ void menu::wordsMenu(player::Player& player) {
     switch (menu_choices::getMenuChoice(">", 9)) {
         case 1: {
             std::cout << ansi::ANSI_CLEAR << std::endl;
-            if (player.cash < 2) {
+            if (player.cash < 5) {
                 std::cout << ansi::ANSI_RED << "You can't afford that!" << ansi::ANSI_RESET << std::endl;
                 menu_choices::getStringChoice("");
                 std::cout << ansi::ANSI_CLEAR << std::endl;
                 menu::wordsMenu(player);
                 break;
             }
-            player.cash -= 2;
+            player.cash -= 5;
             debug_console::DebugConsole::elements.push_back("Player cash reduced by 2");
             std::string verse = files::Files::verses[random::randomInRange(0, files::Files::verses.size() - 1)];
             player.knownVerses.push_back(verse);
