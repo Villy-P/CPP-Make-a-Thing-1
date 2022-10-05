@@ -25,8 +25,8 @@ void menu::wordsMenu(player::Player& player) {
     std::cout << "7  | SAVE DATA                             |" << std::endl;
     std::cout << "8  | LOAD DATA                             |" << std::endl;
     std::cout << "9  | EXIT                                  |" << std::endl;
-    std::cout << "10 | DEBUG CONSOLE (ONLY FOR DEVELOPER)    |" << std::endl;
-    std::cout << "11 | MAKE MORE MONEY                       |" << std::endl;
+    std::cout << "10 | MAKE MORE MONEY                       |" << std::endl;
+    std::cout << "11 | DEBUG CONSOLE (ONLY FOR DEVELOPER)    |" << std::endl;
     std::cout << "   |                                       |" << std::endl;
     std::cout << "   |    ANYONE WHO PAYS 50 CENTAVOS WILL   |" << std::endl;
     std::cout << "   |  GET A WORD TO DRIVE AWAY MELENCHOLY  |" << std::endl;
@@ -64,7 +64,7 @@ void menu::wordsMenu(player::Player& player) {
             std::cout << ansi::ANSI_CLEAR << std::endl;
             menu::wordsMenu(player);
             break;
-        case 8:
+        case 9:
             std::cout << ansi::ANSI_CLEAR << std::endl;
             std::cout << ansi::ANSI_RED << "Are you sure you want to exit? ANY UNSAVED DATA WILL BE LOST" << std::endl;
             std::cout << "Press ENTER TO EXIT and any DIGIT to go back." << ansi::ANSI_RESET << std::endl;
@@ -78,7 +78,7 @@ void menu::wordsMenu(player::Player& player) {
                     break;
             }
             break;
-        case 9:
+        case 11:
             std::cout << ansi::ANSI_CLEAR << std::endl;
             for (std::string s : debug_console::DebugConsole::elements)
                 std::cout << s << std::endl;
