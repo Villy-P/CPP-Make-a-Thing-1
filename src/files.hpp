@@ -8,8 +8,12 @@ namespace files {
     class Files {
         public:
             static inline std::vector<std::string> verses;
+            static inline std::vector<std::string> attentionGrabbers;
+            static inline std::vector<std::string> complements;
+            static inline std::vector<std::string> details;
 
             static void parseVersesTXT();
+            static void parseLoveLetterFiles();
     };
 }
 

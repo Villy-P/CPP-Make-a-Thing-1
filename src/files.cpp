@@ -24,3 +24,49 @@ void files::Files::parseVersesTXT() {
         exit(0);
     }
 }
+
+void files::Files::parseLoveLetterFiles() {
+    debug_console::DebugConsole::elements.push_back("Started parsing love letter files");
+    std::ifstream attentionGrabbersFile("Love Letter\\attentionGrabbers.txt");
+    if (attentionGrabbersFile.is_open()) {
+        debug_console::DebugConsole::elements.push_back("File Love Letter\\attentionGrabbers.txt is good");
+        while (attentionGrabbersFile.good()) {
+            std::string line;
+            std::getline(attentionGrabbersFile, line);
+            files::Files::attentionGrabbers.push_back(line);
+        }
+    } else {
+        std::cout << ansi::ANSI_RED << "FATAL ERROR. CANNOT FIND OR READ FILE NAMED LOVE LETTER\\ATTENTIONGRABBERS.TXT" << ansi::ANSI_RESET << std::endl;
+        std::cout << ansi::ANSI_RED << "PLEASE CHECK THAT THE FILE EXISTS WITHIN THE SAME DIRECTORY AS MAIN.EXE AND CHECK FILE PERMISSIONS" << ansi::ANSI_RESET << std::endl;
+        menu_choices::getStringChoice("PRESS ENTER TO ABORT.");
+        exit(0);
+    }
+    std::ifstream complementsFile("Love Letter\\complements.txt");
+    if (complementsFile.is_open()) {
+        debug_console::DebugConsole::elements.push_back("File Love Letter\\complements.txt is good");
+        while (complementsFile.good()) {
+            std::string line;
+            std::getline(complementsFile, line);
+            files::Files::complements.push_back(line);
+        }
+    } else {
+        std::cout << ansi::ANSI_RED << "FATAL ERROR. CANNOT FIND OR READ FILE NAMED LOVE LETTER\\COMPLEMENTS.TXT" << ansi::ANSI_RESET << std::endl;
+        std::cout << ansi::ANSI_RED << "PLEASE CHECK THAT THE FILE EXISTS WITHIN THE SAME DIRECTORY AS MAIN.EXE AND CHECK FILE PERMISSIONS" << ansi::ANSI_RESET << std::endl;
+        menu_choices::getStringChoice("PRESS ENTER TO ABORT.");
+        exit(0);
+    }
+    std::ifstream theDetailsFile("Love Letter\\theDetails.txt");
+    if (theDetailsFile.is_open()) {
+        debug_console::DebugConsole::elements.push_back("File Love Letter\\theDetails.txt is good");
+        while (theDetailsFile.good()) {
+            std::string line;
+            std::getline(theDetailsFile, line);
+            files::Files::details.push_back(line);
+        }
+    } else {
+        std::cout << ansi::ANSI_RED << "FATAL ERROR. CANNOT FIND OR READ FILE NAMED LOVE LETTER\\THEDETAILS.TXT" << ansi::ANSI_RESET << std::endl;
+        std::cout << ansi::ANSI_RED << "PLEASE CHECK THAT THE FILE EXISTS WITHIN THE SAME DIRECTORY AS MAIN.EXE AND CHECK FILE PERMISSIONS" << ansi::ANSI_RESET << std::endl;
+        menu_choices::getStringChoice("PRESS ENTER TO ABORT.");
+        exit(0);
+    }
+}
