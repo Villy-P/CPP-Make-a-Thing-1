@@ -8,36 +8,49 @@
 #include <iostream>
 #include <string>
 #include <limits>
+#include <algorithm>
 
 void menu::wordsMenu(player::Player& player) {
     debug_console::DebugConsole::elements.push_back("Begin printing menu");
     std::cout << ansi::ANSI_GREEN << "You have " << std::to_string(player.cash) << " centavos. (100 centavos = 1 Peso)" << ansi::ANSI_RESET << std::endl;
-    std::cout << ansi::ANSI_MAGENTA << "  +---------------------------------------+" << std::endl;
-    std::cout << "  |                 WORDS                 |" << std::endl;
-    std::cout << "  |                                       |" << std::endl;
-    std::cout << "1 | VERSES FROM MEMORY         5 CENTAVOS |" << std::endl;
-    std::cout << "2 | IMPROVE DREAM QUALITY      7 CENTAVOS |" << std::endl;
-    std::cout << "3 | WRITE LOVE LETTER          9 CENTAVOS |" << std::endl;
-    std::cout << "4 | MAKE UP INSULTS           12 CENTAVOS |" << std::endl;
-    std::cout << "5 | WRITE A SPEECH                 1 PESO |" << std::endl;
-    std::cout << "6 | VIEW DATA                             |" << std::endl;
-    std::cout << "6 | SAVE DATA                             |" << std::endl;
-    std::cout << "7 | LOAD DATA                             |" << std::endl;
-    std::cout << "8 | EXIT                                  |" << std::endl;
-    std::cout << "9 | DEBUG CONSOLE (ONLY FOR DEVELOPER)    |" << std::endl;
-    std::cout << "  |                                       |" << std::endl;
-    std::cout << "  |    ANYONE WHO PAYS 50 CENTAVOS WILL   |" << std::endl;
-    std::cout << "  |  GET A WORD TO DRIVE AWAY MELENCHOLY  |" << std::endl;
-    std::cout << "  +---------------------------------------+" << ansi::ANSI_RESET << std::endl;
+    std::cout << ansi::ANSI_MAGENTA << "   +---------------------------------------+" << std::endl;
+    std::cout << "   |                 WORDS                 |" << std::endl;
+    std::cout << "   |                                       |" << std::endl;
+    std::cout << "1  | VERSES FROM MEMORY         5 CENTAVOS |" << std::endl;
+    std::cout << "2  | IMPROVE DREAM QUALITY      7 CENTAVOS |" << std::endl;
+    std::cout << "3  | WRITE LOVE LETTER          9 CENTAVOS |" << std::endl;
+    std::cout << "4  | MAKE UP INSULTS           12 CENTAVOS |" << std::endl;
+    std::cout << "5  | WRITE A SPEECH                 1 PESO |" << std::endl;
+    std::cout << "6  | VIEW DATA                             |" << std::endl;
+    std::cout << "6  | SAVE DATA                             |" << std::endl;
+    std::cout << "7  | LOAD DATA                             |" << std::endl;
+    std::cout << "8  | EXIT                                  |" << std::endl;
+    std::cout << "9  | DEBUG CONSOLE (ONLY FOR DEVELOPER)    |" << std::endl;
+    std::cout << "10 | MAKE MORE MONEY                       |" << std::endl;
+    std::cout << "   |                                       |" << std::endl;
+    std::cout << "   |    ANYONE WHO PAYS 50 CENTAVOS WILL   |" << std::endl;
+    std::cout << "   |  GET A WORD TO DRIVE AWAY MELENCHOLY  |" << std::endl;
+    std::cout << "   +---------------------------------------+" << ansi::ANSI_RESET << std::endl;
     std::cout << ansi::ANSI_RED << "Enter the corresponding number to go to a specific menu." << ansi::ANSI_RESET << std::endl;
     debug_console::DebugConsole::elements.push_back("Stop printing menu");
     switch (menu_choices::getMenuChoice(">", 9)) {
         case 1: {
             std::cout << ansi::ANSI_CLEAR << std::endl;
+            if (player.cash < 2) {
+                std::cout << ansi::ANSI_RED << "You can't afford that!" << ansi::ANSI_RESET << std::endl;
+                menu_choices::getStringChoice("");
+                std::cout << ansi::ANSI_CLEAR << std::endl;
+                menu::wordsMenu(player);
+                break;
+            }
+            player.cash -= 2;
+            debug_console::DebugConsole::elements.push_back("Player cash reduced by 2");
             std::string verse = files::Files::verses[random::randomInRange(0, files::Files::verses.size() - 1)];
             player.knownVerses.push_back(verse);
             std::cout << ansi::ANSI_BLUE << "\"" << verse << "\"" << ansi::ANSI_RESET << std::endl;
             debug_console::DebugConsole::elements.push_back("Verse recited");
+            files::Files::verses.erase(std::remove(files::Files::verses.begin(), files::Files::verses.end(), verse), files::Files::verses.end());
+            debug_console::DebugConsole::elements.push_back("Verse removed");
             menu_choices::getStringChoice("");
             std::cout << ansi::ANSI_CLEAR << std::endl;
             menu::wordsMenu(player);
