@@ -9,6 +9,8 @@
 
 int main(int argc, char const *argv[]) {
     files::Files::parseVersesTXT();
+    files::Files::parseBetterDreams();
+    files::Files::parseLoveLetterFiles();
     debug_console::DebugConsole::elements.push_back("Program Started");
     std::string playerName = menu_choices::getStringChoice("Enter your name>");
     debug_console::DebugConsole::elements.push_back("Got name");

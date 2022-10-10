@@ -25,6 +25,24 @@ void files::Files::parseVersesTXT() {
     }
 }
 
+void files::Files::parseBetterDreams() {
+    debug_console::DebugConsole::elements.push_back("Started parsing betterDreams.txt");
+    std::ifstream file("betterDreams.txt");
+    if (file.is_open()) {
+        debug_console::DebugConsole::elements.push_back("File betterDreams.txt is good");
+        while (file.good()) {
+            std::string line;
+            std::getline(file, line);
+            files::Files::dreams.push_back(line);
+        }
+    } else {
+        std::cout << ansi::ANSI_RED << "FATAL ERROR. CANNOT FIND OR READ FILE NAMED BETTERDREAMS.TXT" << ansi::ANSI_RESET << std::endl;
+        std::cout << ansi::ANSI_RED << "PLEASE CHECK THAT THE FILE EXISTS WITHIN THE SAME DIRECTORY AS MAIN.EXE AND CHECK FILE PERMISSIONS" << ansi::ANSI_RESET << std::endl;
+        menu_choices::getStringChoice("PRESS ENTER TO ABORT.");
+        exit(0);
+    }
+}
+
 void files::Files::parseLoveLetterFiles() {
     debug_console::DebugConsole::elements.push_back("Started parsing love letter files");
     std::ifstream attentionGrabbersFile("Love Letter\\attentionGrabbers.txt");

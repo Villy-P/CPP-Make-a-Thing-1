@@ -51,7 +51,7 @@ void menu::wordsMenu(player::Player& player) {
                 break;
             }
             player.cash -= 5;
-            debug_console::DebugConsole::elements.push_back("Player cash reduced by 2");
+            debug_console::DebugConsole::elements.push_back("Player cash reduced by 5");
             std::string verse = files::Files::verses[random::randomInRange(0, files::Files::verses.size() - 1)];
             player.knownVerses.push_back(verse);
             std::cout << ansi::ANSI_BLUE << "\"" << verse << "\"" << ansi::ANSI_RESET << std::endl;
@@ -62,11 +62,42 @@ void menu::wordsMenu(player::Player& player) {
             std::cout << ansi::ANSI_CLEAR << std::endl;
             menu::wordsMenu(player);
             break;
+        } case 2: {
+            std::cout << ansi::ANSI_CLEAR << std::endl;
+            if (files::Files::dreams.size() == 0) {
+                std::cout << ansi::ANSI_RED << "Belisa has run out of things to say to you." << ansi::ANSI_RESET << std::endl;
+                menu_choices::getStringChoice("");
+                std::cout << ansi::ANSI_CLEAR << std::endl;
+                menu::wordsMenu(player);
+                break;
+            }
+            if (player.cash < 7) {
+                std::cout << ansi::ANSI_RED << "You can't afford that!" << ansi::ANSI_RESET << std::endl;
+                menu_choices::getStringChoice("");
+                std::cout << ansi::ANSI_CLEAR << std::endl;
+                menu::wordsMenu(player);
+                break;
+            }
+            player.cash -= 7;
+            debug_console::DebugConsole::elements.push_back("Player cash reduced by 7");
+            std::string item = files::Files::dreams[random::randomInRange(0, files::Files::dreams.size() - 1)];
+            player.knownDreams.push_back(item);
+            std::cout << ansi::ANSI_BLUE << "\"" << item << "\"" << ansi::ANSI_RESET << std::endl;
+            debug_console::DebugConsole::elements.push_back("Dream recited");
+            files::Files::dreams.erase(std::remove(files::Files::dreams.begin(), files::Files::dreams.end(), item), files::Files::dreams.end());
+            debug_console::DebugConsole::elements.push_back("Dream removed");
+            menu_choices::getStringChoice("");
+            std::cout << ansi::ANSI_CLEAR << std::endl;
+            menu::wordsMenu(player);
+            break;
         } case 6:
             std::cout << ansi::ANSI_CLEAR << std::endl;
             std::cout << ansi::ANSI_BLUE << "Verses Known:\n" << ansi::ANSI_RESET << std::endl;
             for (std::string s : player.knownVerses)
                 std::cout << ansi::ANSI_BLUE << s << "\n" << ansi::ANSI_RESET << std::endl;
+            std::cout << ansi::ANSI_BLUE << "Dream Quality Improvers Known:\n" << ansi::ANSI_RESET << std::endl;
+            for (std::string s : player.knownDreams)
+                std::cout << ansi::ANSI_ORANGE << s << "\n" << ansi::ANSI_RESET << std::endl;
             menu_choices::getStringChoice("");
             std::cout << ansi::ANSI_CLEAR << std::endl;
             menu::wordsMenu(player);
@@ -79,7 +110,7 @@ void menu::wordsMenu(player::Player& player) {
                 case 0:
                     exit(0);
                     break;
-                case 1:
+                default:
                     std::cout << ansi::ANSI_CLEAR << std::endl;
                     menu::wordsMenu(player);
                     break;
