@@ -20,13 +20,11 @@ void menu::wordsMenu(player::Player& player) {
     std::cout << "2  | IMPROVE DREAM QUALITY      7 CENTAVOS |" << std::endl;
     std::cout << "3  | WRITE LOVE LETTER          9 CENTAVOS |" << std::endl;
     std::cout << "4  | MAKE UP INSULTS           12 CENTAVOS |" << std::endl;
-    std::cout << "5  | WRITE A SPEECH                 1 PESO |" << std::endl;
-    std::cout << "6  | VIEW DATA                             |" << std::endl;
-    std::cout << "7  | SAVE DATA                             |" << std::endl;
-    std::cout << "8  | LOAD DATA                             |" << std::endl;
-    std::cout << "9  | EXIT                                  |" << std::endl;
-    std::cout << "10 | MAKE MORE MONEY                       |" << std::endl;
-    std::cout << "11 | DEBUG CONSOLE (ONLY FOR DEVELOPER)    |" << std::endl;
+    std::cout << "5  | VIEW DATA                             |" << std::endl;
+    std::cout << "6  | EXIT                                  |" << std::endl;
+    std::cout << "7  | MAKE MORE MONEY                       |" << std::endl;
+    std::cout << "8  | GET WORDS                             |" << std::endl;
+    std::cout << "9  | DEBUG CONSOLE (ONLY FOR DEVELOPER)    |" << std::endl;
     std::cout << "   |                                       |" << std::endl;
     std::cout << "   |    ANYONE WHO PAYS 50 CENTAVOS WILL   |" << std::endl;
     std::cout << "   |  GET A WORD TO DRIVE AWAY MELENCHOLY  |" << std::endl;
@@ -51,6 +49,7 @@ void menu::wordsMenu(player::Player& player) {
                 break;
             }
             player.cash -= 5;
+            player.amountSpent += 5;
             debug_console::DebugConsole::elements.push_back("Player cash reduced by 5");
             std::string verse = files::Files::verses[random::randomInRange(0, files::Files::verses.size() - 1)];
             player.knownVerses.push_back(verse);
@@ -79,6 +78,7 @@ void menu::wordsMenu(player::Player& player) {
                 break;
             }
             player.cash -= 7;
+            player.amountSpent += 7;
             debug_console::DebugConsole::elements.push_back("Player cash reduced by 7");
             std::string item = files::Files::dreams[random::randomInRange(0, files::Files::dreams.size() - 1)];
             player.knownDreams.push_back(item);
@@ -107,6 +107,7 @@ void menu::wordsMenu(player::Player& player) {
                 break;
             }
             player.cash -= 9;
+            player.amountSpent += 9;
             debug_console::DebugConsole::elements.push_back("Player cash reduced by 9");
             std::string to = menu_choices::getStringChoice("\"Who am I writing this letter to?\"  >");
             std::string letter = "Dearest " + to + ",\n\t";
@@ -130,7 +131,37 @@ void menu::wordsMenu(player::Player& player) {
             std::cout << ansi::ANSI_CLEAR << std::endl;
             menu::wordsMenu(player);
             break;
-        } case 6:
+        } case 4: {
+            std::cout << ansi::ANSI_CLEAR << std::endl;
+            if (files::Files::dreams.size() == 0) {
+                std::cout << ansi::ANSI_RED << "Belisa has run out of things to say to you." << ansi::ANSI_RESET << std::endl;
+                menu_choices::getStringChoice("");
+                std::cout << ansi::ANSI_CLEAR << std::endl;
+                menu::wordsMenu(player);
+                break;
+            }
+            if (player.cash < 12) {
+                std::cout << ansi::ANSI_RED << "You can't afford that!" << ansi::ANSI_RESET << std::endl;
+                menu_choices::getStringChoice("");
+                std::cout << ansi::ANSI_CLEAR << std::endl;
+                menu::wordsMenu(player);
+                break;
+            }
+            player.cash -= 12;
+            player.amountSpent += 12;
+            debug_console::DebugConsole::elements.push_back("Player cash reduced by 12");
+            std::string item = files::Files::insults[random::randomInRange(0, files::Files::insults.size() - 1)];
+            player.knownInsults.push_back(item);
+            std::cout << ansi::ANSI_RED << "\"" << item << "\"" << ansi::ANSI_RESET << std::endl;
+            debug_console::DebugConsole::elements.push_back("Dream recited");
+            files::Files::insults.erase(std::remove(files::Files::insults.begin(), files::Files::insults.end(), item), files::Files::insults.end());
+            debug_console::DebugConsole::elements.push_back("Dream removed");
+            menu_choices::getStringChoice("");
+            std::cout << ansi::ANSI_CLEAR << std::endl;
+            menu::wordsMenu(player);
+            break;
+            break;
+        } case 5:
             std::cout << ansi::ANSI_CLEAR << std::endl;
             std::cout << ansi::ANSI_BLUE << "Verses Known:\n" << ansi::ANSI_RESET << std::endl;
             for (std::string s : player.knownVerses)
@@ -141,13 +172,19 @@ void menu::wordsMenu(player::Player& player) {
             std::cout << ansi::ANSI_MAGENTA << "Love letters known:\n" << ansi::ANSI_RESET << std::endl;
             for (std::string s : player.knownLoveLetters)
                 std::cout << ansi::ANSI_MAGENTA << s << "\n" << ansi::ANSI_RESET << std::endl;
+            std::cout << ansi::ANSI_GREEN << "Insults known:\n" << ansi::ANSI_RESET << std::endl;
+            for (std::string s : player.knownInsults) 
+                std::cout << ansi::ANSI_GREEN << s << "\n" << ansi::ANSI_RESET << std::endl;
+            std::cout << ansi::ANSI_RED << "Words known:\n" << ansi::ANSI_RESET << std::endl;
+            for (std::string s : player.knownWords)
+                std::cout << ansi::ANSI_RED << s << "\n" << ansi::ANSI_RESET << std::endl;
             menu_choices::getStringChoice("");
             std::cout << ansi::ANSI_CLEAR << std::endl;
             menu::wordsMenu(player);
             break;
-        case 9:
+        case 6:
             std::cout << ansi::ANSI_CLEAR << std::endl;
-            std::cout << ansi::ANSI_RED << "Are you sure you want to exit? ANY UNSAVED DATA WILL BE LOST" << std::endl;
+            std::cout << ansi::ANSI_RED << "Are you sure you want to exit?" << std::endl;
             std::cout << "Press ENTER TO EXIT and any DIGIT to go back." << ansi::ANSI_RESET << std::endl;
             switch (menu_choices::getMenuChoice(">", std::numeric_limits<int>::max())) {
                 case 0:
@@ -159,7 +196,31 @@ void menu::wordsMenu(player::Player& player) {
                     break;
             }
             break;
-        case 11:
+        case 7: {
+            int amount = random::randomInRange(20, 100);
+            std::cout << ansi::ANSI_ORANGE << "You made $" << amount << ansi::ANSI_RESET << std::endl;
+            player.cash += amount;
+            menu_choices::getStringChoice("");
+            std::cout << ansi::ANSI_CLEAR << std::endl;
+            menu::wordsMenu(player);
+            break;
+        } case 8: {
+            int amount = player.amountSpent / 50;
+            if (amount == 0) {
+                std::cout << ansi::ANSI_RED << "You have not payed 50 centavos yet!" << ansi::ANSI_RESET << std::endl;
+                menu_choices::getStringChoice("");
+                std::cout << ansi::ANSI_CLEAR << std::endl;
+                menu::wordsMenu(player);
+                break;
+            }
+            for (int i = 0; i < amount; i++) {
+                std::string word = files::Files::words[i];
+                std::cout << "\"" << word << "\"" << std::endl;
+                player.knownWords.push_back(word);
+            }
+            player.amountSpent -= amount * 50;
+            break;
+        } case 9: {
             std::cout << ansi::ANSI_CLEAR << std::endl;
             for (std::string s : debug_console::DebugConsole::elements)
                 std::cout << s << std::endl;
@@ -167,5 +228,6 @@ void menu::wordsMenu(player::Player& player) {
             std::cout << ansi::ANSI_CLEAR << std::endl;
             menu::wordsMenu(player);
             break;
+        }
     }
 }
