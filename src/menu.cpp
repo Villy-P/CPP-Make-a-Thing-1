@@ -82,10 +82,50 @@ void menu::wordsMenu(player::Player& player) {
             debug_console::DebugConsole::elements.push_back("Player cash reduced by 7");
             std::string item = files::Files::dreams[random::randomInRange(0, files::Files::dreams.size() - 1)];
             player.knownDreams.push_back(item);
-            std::cout << ansi::ANSI_BLUE << "\"" << item << "\"" << ansi::ANSI_RESET << std::endl;
+            std::cout << ansi::ANSI_ORANGE << "\"" << item << "\"" << ansi::ANSI_RESET << std::endl;
             debug_console::DebugConsole::elements.push_back("Dream recited");
             files::Files::dreams.erase(std::remove(files::Files::dreams.begin(), files::Files::dreams.end(), item), files::Files::dreams.end());
             debug_console::DebugConsole::elements.push_back("Dream removed");
+            menu_choices::getStringChoice("");
+            std::cout << ansi::ANSI_CLEAR << std::endl;
+            menu::wordsMenu(player);
+            break;
+        } case 3: {
+            std::cout << ansi::ANSI_CLEAR << std::endl;
+            if (files::Files::attentionGrabbers.size() == 0) {
+                std::cout << ansi::ANSI_RED << "Belisa has run out of things to write." << ansi::ANSI_RESET << std::endl;
+                menu_choices::getStringChoice("");
+                std::cout << ansi::ANSI_CLEAR << std::endl;
+                menu::wordsMenu(player);
+                break;
+            }
+            if (player.cash < 9) {
+                std::cout << ansi::ANSI_RED << "You can't afford that!" << ansi::ANSI_RESET << std::endl;
+                menu_choices::getStringChoice("");
+                std::cout << ansi::ANSI_CLEAR << std::endl;
+                menu::wordsMenu(player);
+                break;
+            }
+            player.cash -= 9;
+            debug_console::DebugConsole::elements.push_back("Player cash reduced by 9");
+            std::string to = menu_choices::getStringChoice("\"Who am I writing this letter to?\"  >");
+            std::string letter = "Dearest " + to + ",\n\t";
+            std::string attentionGrabber = files::Files::attentionGrabbers[random::randomInRange(0, files::Files::attentionGrabbers.size() - 1)];
+            letter += attentionGrabber += " ";
+            files::Files::attentionGrabbers.erase(std::remove(files::Files::attentionGrabbers.begin(), files::Files::attentionGrabbers.end(), attentionGrabber), files::Files::attentionGrabbers.end());
+            for (unsigned char i = 0; i < 10; i++) {
+                std::string complement = files::Files::complements[random::randomInRange(0, files::Files::complements.size() - 1)];
+                letter += complement + " ";
+                files::Files::complements.erase(std::remove(files::Files::complements.begin(), files::Files::complements.end(), complement), files::Files::complements.end());
+            }
+            std::string detail = files::Files::details[random::randomInRange(0, files::Files::details.size() - 1)];
+            letter += detail;
+            files::Files::details.erase(std::remove(files::Files::details.begin(), files::Files::details.end(), detail), files::Files::details.end());
+            letter += "\n\t\t\tSincerely, " + player.name;
+            player.knownLoveLetters.push_back(letter);
+            debug_console::DebugConsole::elements.push_back("Letter Constructed");
+            std::cout << ansi::ANSI_MAGENTA << letter << ansi::ANSI_RESET << std::endl;
+            debug_console::DebugConsole::elements.push_back("Letter Recited");
             menu_choices::getStringChoice("");
             std::cout << ansi::ANSI_CLEAR << std::endl;
             menu::wordsMenu(player);
@@ -95,9 +135,12 @@ void menu::wordsMenu(player::Player& player) {
             std::cout << ansi::ANSI_BLUE << "Verses Known:\n" << ansi::ANSI_RESET << std::endl;
             for (std::string s : player.knownVerses)
                 std::cout << ansi::ANSI_BLUE << s << "\n" << ansi::ANSI_RESET << std::endl;
-            std::cout << ansi::ANSI_BLUE << "Dream Quality Improvers Known:\n" << ansi::ANSI_RESET << std::endl;
+            std::cout << ansi::ANSI_ORANGE << "Dream Quality Improvers Known:\n" << ansi::ANSI_RESET << std::endl;
             for (std::string s : player.knownDreams)
                 std::cout << ansi::ANSI_ORANGE << s << "\n" << ansi::ANSI_RESET << std::endl;
+            std::cout << ansi::ANSI_MAGENTA << "Love letters known:\n" << ansi::ANSI_RESET << std::endl;
+            for (std::string s : player.knownLoveLetters)
+                std::cout << ansi::ANSI_MAGENTA << s << "\n" << ansi::ANSI_RESET << std::endl;
             menu_choices::getStringChoice("");
             std::cout << ansi::ANSI_CLEAR << std::endl;
             menu::wordsMenu(player);

@@ -13,6 +13,7 @@ namespace player {
             int cash;
             std::vector<std::string> knownVerses;
             std::vector<std::string> knownDreams;
+            std::vector<std::string> knownLoveLetters;
 
             Player(std::string name, int cash);
     };
