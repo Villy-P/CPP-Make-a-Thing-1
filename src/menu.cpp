@@ -9,6 +9,7 @@
 #include <string>
 #include <limits>
 #include <algorithm>
+#include <tgmath.h>
 
 void menu::wordsMenu(player::Player& player) {
     debug_console::DebugConsole::elements.push_back("Begin printing menu");
@@ -205,7 +206,7 @@ void menu::wordsMenu(player::Player& player) {
             menu::wordsMenu(player);
             break;
         } case 8: {
-            int amount = player.amountSpent / 50;
+            int amount = floor(player.amountSpent / 50.0);
             if (amount == 0) {
                 std::cout << ansi::ANSI_RED << "You have not payed 50 centavos yet!" << ansi::ANSI_RESET << std::endl;
                 menu_choices::getStringChoice("");
