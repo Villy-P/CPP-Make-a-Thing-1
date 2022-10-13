@@ -16,7 +16,6 @@ namespace player {
             std::vector<std::string> knownDreams;
             std::vector<std::string> knownLoveLetters;
             std::vector<std::string> knownInsults;
-            std::vector<std::string> knownWords;
 
             Player(std::string name, int cash);
     };

@@ -176,9 +176,6 @@ void menu::wordsMenu(player::Player& player) {
             std::cout << ansi::ANSI_GREEN << "Insults known:\n" << ansi::ANSI_RESET << std::endl;
             for (std::string s : player.knownInsults) 
                 std::cout << ansi::ANSI_GREEN << s << "\n" << ansi::ANSI_RESET << std::endl;
-            std::cout << ansi::ANSI_RED << "Words known:\n" << ansi::ANSI_RESET << std::endl;
-            for (std::string s : player.knownWords)
-                std::cout << ansi::ANSI_RED << s << "\n" << ansi::ANSI_RESET << std::endl;
             menu_choices::getStringChoice("");
             std::cout << ansi::ANSI_CLEAR << std::endl;
             menu::wordsMenu(player);
@@ -206,20 +203,16 @@ void menu::wordsMenu(player::Player& player) {
             menu::wordsMenu(player);
             break;
         } case 8: {
-            int amount = floor(player.amountSpent / 50.0);
-            if (amount == 0) {
+            if (player.amountSpent < 50) {
                 std::cout << ansi::ANSI_RED << "You have not payed 50 centavos yet!" << ansi::ANSI_RESET << std::endl;
                 menu_choices::getStringChoice("");
                 std::cout << ansi::ANSI_CLEAR << std::endl;
                 menu::wordsMenu(player);
                 break;
             }
-            for (int i = 0; i < amount; i++) {
-                std::string word = files::Files::words[i];
-                std::cout << "\"" << word << "\"" << std::endl;
-                player.knownWords.push_back(word);
-            }
-            player.amountSpent -= amount * 50;
+            std::cout << ansi::ANSI_RED << "The words Belisa gives you make you insane!" << ansi::ANSI_RESET << std::endl;
+            menu_choices::getStringChoice("");
+            exit(0);
             break;
         } case 9: {
             std::cout << ansi::ANSI_CLEAR << std::endl;

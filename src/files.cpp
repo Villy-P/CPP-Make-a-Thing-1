@@ -106,21 +106,3 @@ void files::Files::parseInsults() {
         exit(0);
     }   
 }
-
-void files::Files::parseWords() {
-    debug_console::DebugConsole::elements.push_back("Started parsing words file");
-    std::ifstream words("words.txt");
-    if (words.is_open()) {
-        debug_console::DebugConsole::elements.push_back("File words.txt is good");
-        while (words.good()) {
-            std::string line;
-            std::getline(words, line);
-            files::Files::words.push_back(line);
-        }
-    } else {
-        std::cout << ansi::ANSI_RED << "FATAL ERROR. CANNOT FIND OR READ FILE NAMED WORDS.TXT" << ansi::ANSI_RESET << std::endl;
-        std::cout << ansi::ANSI_RED << "PLEASE CHECK THAT THE FILE EXISTS WITHIN THE SAME DIRECTORY AS MAIN.EXE AND CHECK FILE PERMISSIONS" << ansi::ANSI_RESET << std::endl;
-        menu_choices::getStringChoice("PRESS ENTER TO ABORT.");
-        exit(0);
-    }   
-}
